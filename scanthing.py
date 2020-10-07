@@ -16,6 +16,7 @@ widthImg  = 700
 count=0
 thresh_ct = 0
 x = cv2.imread(pathImage)
+
 while True:
     img = cv2.imread(pathImage)
     img = cv2.resize(img, (widthImg, heightImg)) # RESIZE IMAGE
@@ -37,8 +38,6 @@ while True:
     if biggest.size != 0 or thresh_ct == 200:
         break
     thresh_ct += 10
-
-
 
 if biggest.size != 0:
     biggest=utils.reorder(biggest)
@@ -81,15 +80,14 @@ if biggest.size != 0:
 
 #cv2.imshow("a",imgGray)
 #cv2.imshow("as",imgBlur)
-cv2.imshow("asds",imgThreshold)
-cv2.imshow(":)",imgContours)
-cv2.imshow("esfse.jpg",imgWarpGray)
-cv2.imshow("myImage1.jpg",imgAdaptiveThre)
-cv2.imshow("myImage.jpg",imgWarpColored)
-cv2.imshow("mfsf",imgAdaptiveEro)
+cv2.imshow("threshold",imgThreshold)
+cv2.imshow("contours",imgContours)
+cv2.imshow("gray",imgWarpGray)
+cv2.imshow("adaptive thresh",imgAdaptiveThre)
+cv2.imshow("colored",imgWarpColored)
+cv2.imshow("adaptive erosion",imgAdaptiveEro)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
-#
 
 
 # while 1:
