@@ -5,7 +5,7 @@ import utils
 
 ########################################################################
 webCamFeed = False
-pathImage = "tomato.jpg"
+pathImage = "Images/tomato.jpg"
 # cap = cv2.VideoCapture(0)
 # cap.set(10,160)
 heightImg = 1000
