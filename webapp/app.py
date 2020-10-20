@@ -8,43 +8,31 @@ db = SQLAlchemy(app)
 
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.Text, nullable=False)
-    completed = db.Column(db.Integer, default=0)
+    content = db.Column(db.String(200), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
         return '<Task %r>' % self.id
 
-class Img(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    img = db.Column(db.Text, unique=True, nullable=False)
-    name = db.Column(db.Text, nullable=False)
-    date_created = db.Column(db.DateTime, default=datetime.utcnow)
-
-    def __repr__(self):
-        return '<Img %r>' % self.id
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
-        pic = request.files['content']
-        filename = pic.filename
-        img = Img(img=pic.read(), name=filename)
-        db.session.add(img)
-        db.session.commit()
-        return redirect('/')
+        task_content = request.form['content']
+        new_task = Todo(content=task_content)
+
+        try:
+            db.session.add(new_task)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'There was an issue adding your task'
 
     else:
-        tasks = Img.query.order_by(Img.date_created).all()
+        tasks = Todo.query.order_by(Todo.date_created).all()
         return render_template('index.html', tasks=tasks)
 
-# @app.route('/<int:id>')
-# def get_img(id):
-#     img = Img.query.filter_by(id=id).first()
-#     if not img:
-#         return 'Img Not Found!', 404
 
-"""
 @app.route('/delete/<int:id>')
 def delete(id):
     task_to_delete = Todo.query.get_or_404(id)
@@ -71,7 +59,7 @@ def update(id):
 
     else:
         return render_template('update.html', task=task)
-"""
+
 
 if __name__ == "__main__":
     app.run(debug=True)
